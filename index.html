@@ -6,53 +6,57 @@
     <title>Canvas Tank Game</title>
     <style>canvas {
         border: 1px solid black;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    body {
+        font-family: "Comic Sans MS", cursive, sans-serif;
     }</style>
 </head>
-<body><h1 style="font-family:'Comic Sans MS';">Gud Tankk Gam</h1>
-<h2 style="font-family:'Comic Sans MS';">a &amp; d = muv space = shuut</h2>
-<canvas id="a" width="800" height="600"></canvas>
-<script>const a = document.getElementById("a"), b = a.getContext("2d"), c = {x: 50, y: a.height - 50, f: 50, g: -45},
-    d = {x: 0, y: 0, f: c.f}, e = [];
-
-function f() {
-    d.x = Math.random() * (a.width / 3) + (2 * a.width / 3), d.y = Math.random() * (a.height - d.f) + d.f
-}
-
-function g() {
-    b.fillStyle = "red", b.fillRect(c.x - c.f / 2, c.y - c.f / 2, c.f, c.f), b.strokeStyle = "black", b.lineWidth = 5, b.beginPath(), b.moveTo(c.x, c.y), b.lineTo(c.x + Math.cos(c.g * Math.PI / 180) * c.f, c.y + Math.sin(c.g * Math.PI / 180) * c.f), b.stroke()
-}
+<body><h1>Gud Tankk Gam</h1>
+<h2>a &amp; d = muv space = shuut</h2>
+<canvas id="c" width="800" height="600"></canvas>
+<script>const a = document.getElementById("c"), b = a.getContext("2d"), c = {x: 50, y: a.height - 50, w: 50, t: -45},
+    g = [];
+let d = {x: 0, y: 0, r: c.w};
 
 function h() {
-    b.fillStyle = "red", b.beginPath(), b.arc(d.x, d.y, d.f, 0, 2 * Math.PI), b.fill()
+    d.x = Math.random() * a.width / 3 + 2 * a.width / 3, d.y = Math.random() * (a.height - d.r) + d.r
 }
 
 function i() {
-    b.fillStyle = "black";
-    for (const a of e) b.beginPath(), b.arc(a.x, a.y, a.f, 0, 2 * Math.PI), b.fill()
+    b.fillStyle = "black", b.fillRect(c.x - c.w / 2, c.y - c.w / 2, c.w, c.w), b.beginPath(), b.moveTo(c.x, c.y), b.lineTo(c.x + Math.cos(c.t * Math.PI / 180) * c.w, c.y + Math.sin(c.t * Math.PI / 180) * c.w), b.stroke()
 }
 
 function j() {
-    for (const a of e) a.x += a.h, a.y += a.i;
-    e.forEach(((a, k) => {
-        if (a.x > a.width || a.y > a.height || a.y < 0) return e.splice(k, 1);
-        const l = Math.sqrt((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y));
-        l <= a.f + d.f && (e.splice(k, 1), f())
-    }))
+    b.fillStyle = "red", b.beginPath(), b.arc(d.x, d.y, d.r, 0, 2 * Math.PI), b.fill()
 }
 
 function k() {
-    b.clearRect(0, 0, a.width, a.height), g(), h(), i(), j(), requestAnimationFrame(k)
+    b.fillStyle = "black";
+    for (const a of g) b.beginPath(), b.arc(a.x, a.y, a.r, 0, 2 * Math.PI), b.fill()
 }
 
-f(), k(), document.addEventListener("keydown", (a => {
-    "a" === a.key.toLowerCase() && (c.g -= 5), "d" === a.key.toLowerCase() && (c.g += 5), " " === a.key && e.push({
+function l() {
+    for (const a of g) a.x += a.vx, a.y += a.vy;
+    g.forEach(((a, b) => {
+        if (a.x > a.width || a.y > a.height || a.y < 0) return g.splice(b, 1);
+        const c = Math.sqrt((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y));
+        c <= a.r + d.r && (g.splice(b, 1), h())
+    }))
+}
+
+function m() {
+    b.clearRect(0, 0, a.width, a.height), i(), j(), k(), l(), requestAnimationFrame(m)
+}
+
+h(), m(), document.addEventListener("keydown", a => {
+    "a" === a.key.toLowerCase() && (c.t -= 5), "d" === a.key.toLowerCase() && (c.t += 5), " " === a.key && g.push({
         x: c.x,
         y: c.y,
-        f: 5,
-        h: 10 * Math.cos(c.g * Math.PI / 180),
-        i: 10 * Math.sin(c.g * Math.PI / 180)
+        r: 5,
+        vx: 10 * Math.cos(c.t * Math.PI / 180),
+        vy: 10 * Math.sin(c.t * Math.PI / 180)
     })
-}));</script>
+});</script>
 </body>
 </html>
