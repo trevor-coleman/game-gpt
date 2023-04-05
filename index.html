@@ -6,57 +6,65 @@
     <title>Canvas Tank Game</title>
     <style>canvas {
         border: 1px solid black;
+        display: block;
+        margin: auto;
     }
 
     body {
-        font-family: "Comic Sans MS", cursive, sans-serif;
+        font-family: 'Comic Sans MS', cursive;
+        text-align: center;
     }</style>
 </head>
 <body><h1>Gud Tankk Gam</h1>
 <h2>a &amp; d = muv space = shuut</h2>
 <canvas id="c" width="800" height="600"></canvas>
-<script>const a = document.getElementById("c"), b = a.getContext("2d"), c = {x: 50, y: a.height - 50, w: 50, t: -45},
-    g = [];
-let d = {x: 0, y: 0, r: c.w};
+<script>const a = document.getElementById("c"), b = a.getContext("2d"),
+    c = {x: 50, y: a.height - 50, size: 50, turretAngle: -45},
+    d = new Audio("https://notification-sounds.com/soundsfiles/Click-sound-effect.mp3"),
+    e = new Audio("https://notification-sounds.com/soundsfiles/Gun-laser-sound.mp3"),
+    f = new Audio("https://notification-sounds.com/soundsfiles/Free-explosion-sound-effect.mp3");
+let g = {x: 0, y: 0, radius: c.size};
 
 function h() {
-    d.x = Math.random() * a.width / 3 + 2 * a.width / 3, d.y = Math.random() * (a.height - d.r) + d.r
+    g.x = Math.random() * (a.width / 3) + (2 * a.width / 3), g.y = Math.random() * (a.height - g.radius) + g.radius
 }
 
-function i() {
-    b.fillStyle = "black", b.fillRect(c.x - c.w / 2, c.y - c.w / 2, c.w, c.w), b.beginPath(), b.moveTo(c.x, c.y), b.lineTo(c.x + Math.cos(c.t * Math.PI / 180) * c.w, c.y + Math.sin(c.t * Math.PI / 180) * c.w), b.stroke()
-}
+const i = [];
 
 function j() {
-    b.fillStyle = "red", b.beginPath(), b.arc(d.x, d.y, d.r, 0, 2 * Math.PI), b.fill()
+    b.fillStyle = "black", b.fillRect(c.x - c.size / 2, c.y - c.size / 2, c.size, c.size), b.strokeStyle = "black", b.lineWidth = 5, b.beginPath(), b.moveTo(c.x, c.y), b.lineTo(c.x + Math.cos(c.turretAngle * Math.PI / 180) * c.size, c.y + Math.sin(c.turretAngle * Math.PI / 180) * c.size), b.stroke()
 }
 
 function k() {
-    b.fillStyle = "black";
-    for (const a of g) b.beginPath(), b.arc(a.x, a.y, a.r, 0, 2 * Math.PI), b.fill()
+    b.fillStyle = "red", b.beginPath(), b.arc(g.x, g.y, g.radius, 0, 2 * Math.PI), b.fill()
 }
 
 function l() {
-    for (const a of g) a.x += a.vx, a.y += a.vy;
-    g.forEach(((a, b) => {
-        if (a.x > a.width || a.y > a.height || a.y < 0) return g.splice(b, 1);
-        const c = Math.sqrt((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y));
-        c <= a.r + d.r && (g.splice(b, 1), h())
+    b.fillStyle = "black";
+    for (const m of i) b.beginPath(), b.arc(m.x, m.y, m.radius, 0, 2 * Math.PI), b.fill()
+}
+
+function n() {
+    for (const m of i) m.x += m.vx, m.y += m.vy;
+    i.forEach(((m, o) => {
+        if (m.x > a.width || m.y > a.height || m.y < 0) return i.splice(o, 1);
+        const p = Math.sqrt((m.x - g.x) * (m.x - g.x) + (m.y - g.y) * (m.y - g.y));
+        p <= m.radius + g.radius && (f.play(), i.splice(o, 1), h())
     }))
 }
 
-function m() {
-    b.clearRect(0, 0, a.width, a.height), i(), j(), k(), l(), requestAnimationFrame(m)
+function o() {
+    b.clearRect(0, 0, a.width, a.height), j(), k(), l(), n(), requestAnimationFrame(o)
 }
 
-h(), m(), document.addEventListener("keydown", a => {
-    "a" === a.key.toLowerCase() && (c.t -= 5), "d" === a.key.toLowerCase() && (c.t += 5), " " === a.key && g.push({
+h(), o(), document.addEventListener("keydown", (p => {
+    "a" === p.key.toLowerCase() && (d.play(), c.turretAngle -= 5), "d" === p.key.toLowerCase() && (d.play(), c.turretAngle += 5), " " === p.key && (e.play(), i.push({
         x: c.x,
         y: c.y,
-        r: 5,
-        vx: 10 * Math.cos(c.t * Math.PI / 180),
-        vy: 10 * Math.sin(c.t * Math.PI / 180)
-    })
-});</script>
+        radius: 5,
+        vx: 10 * Math.cos(c.turretAngle * Math.PI / 180),
+        vy: 10 * Math.sin(c.turretAngle * Math.PI / 180)
+    }))
+}));</script>
 </body>
 </html>
