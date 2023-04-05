@@ -6,55 +6,53 @@
     <title>Canvas Tank Game</title>
     <style>canvas {
         border: 1px solid black;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
     }</style>
 </head>
-<body>
-<canvas id="gameCanvas" width="800" height="600"></canvas>
-<script>const canvas = document.getElementById("gameCanvas"), ctx = canvas.getContext("2d"),
-    tank = {x: 50, y: canvas.height - 50, size: 50, turretAngle: -45};
-let target = {x: 0, y: 0, radius: tank.size};
+<body><h1 style="font-family:'Comic Sans MS';">Gud Tankk Gam</h1>
+<h2 style="font-family:'Comic Sans MS';">a &amp; d = muv space = shuut</h2>
+<canvas id="a" width="800" height="600"></canvas>
+<script>const a = document.getElementById("a"), b = a.getContext("2d"), c = {x: 50, y: a.height - 50, f: 50, g: -45},
+    d = {x: 0, y: 0, f: c.f}, e = [];
 
-function createNewTarget() {
-    target.x = Math.random() * (canvas.width / 3) + (2 * canvas.width / 3), target.y = Math.random() * (canvas.height - target.radius) + target.radius
+function f() {
+    d.x = Math.random() * (a.width / 3) + (2 * a.width / 3), d.y = Math.random() * (a.height - d.f) + d.f
 }
 
-const projectiles = [];
-
-function drawTank() {
-    ctx.fillStyle = "red", ctx.fillRect(tank.x - tank.size / 2, tank.y - tank.size / 2, tank.size, tank.size), ctx.strokeStyle = "black", ctx.lineWidth = 5, ctx.beginPath(), ctx.moveTo(tank.x, tank.y), ctx.lineTo(tank.x + Math.cos(tank.turretAngle * Math.PI / 180) * tank.size, tank.y + Math.sin(tank.turretAngle * Math.PI / 180) * tank.size), ctx.stroke()
+function g() {
+    b.fillStyle = "red", b.fillRect(c.x - c.f / 2, c.y - c.f / 2, c.f, c.f), b.strokeStyle = "black", b.lineWidth = 5, b.beginPath(), b.moveTo(c.x, c.y), b.lineTo(c.x + Math.cos(c.g * Math.PI / 180) * c.f, c.y + Math.sin(c.g * Math.PI / 180) * c.f), b.stroke()
 }
 
-function drawTarget() {
-    ctx.fillStyle = "red", ctx.beginPath(), ctx.arc(target.x, target.y, target.radius, 0, 2 * Math.PI), ctx.fill()
+function h() {
+    b.fillStyle = "red", b.beginPath(), b.arc(d.x, d.y, d.f, 0, 2 * Math.PI), b.fill()
 }
 
-function drawProjectiles() {
-    ctx.fillStyle = "black";
-    for (const e of projectiles) ctx.beginPath(), ctx.arc(e.x, e.y, e.radius, 0, 2 * Math.PI), ctx.fill()
+function i() {
+    b.fillStyle = "black";
+    for (const a of e) b.beginPath(), b.arc(a.x, a.y, a.f, 0, 2 * Math.PI), b.fill()
 }
 
-function updateProjectiles() {
-    for (const e of projectiles) e.x += e.vx, e.y += e.vy;
-    projectiles.forEach(((e, t) => {
-        if (e.x > canvas.width || e.y > canvas.height || e.y < 0) return projectiles.splice(t, 1);
-        const n = Math.sqrt((e.x - target.x) * (e.x - target.x) + (e.y - target.y) * (e.y - target.y));
-        n <= e.radius + target.radius && (projectiles.splice(t, 1), createNewTarget())
+function j() {
+    for (const a of e) a.x += a.h, a.y += a.i;
+    e.forEach(((a, k) => {
+        if (a.x > a.width || a.y > a.height || a.y < 0) return e.splice(k, 1);
+        const l = Math.sqrt((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y));
+        l <= a.f + d.f && (e.splice(k, 1), f())
     }))
 }
 
-function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height), drawTank(), drawTarget(), drawProjectiles(), updateProjectiles(), requestAnimationFrame(gameLoop)
+function k() {
+    b.clearRect(0, 0, a.width, a.height), g(), h(), i(), j(), requestAnimationFrame(k)
 }
 
-createNewTarget(), gameLoop(), document.addEventListener("keydown", (e => {
-    "a" === e.key.toLowerCase() && (tank.turretAngle -= 5), "d" === e.key.toLowerCase() && (tank.turretAngle += 5), " " === e.key && projectiles.push({
-        x: tank.x,
-        y: tank.y,
-        radius: 5,
-        vx: 10 * Math.cos(tank.turretAngle * Math.PI / 180),
-        vy: 10 * Math.sin(tank.turretAngle * Math.PI / 180)
+f(), k(), document.addEventListener("keydown", (a => {
+    "a" === a.key.toLowerCase() && (c.g -= 5), "d" === a.key.toLowerCase() && (c.g += 5), " " === a.key && e.push({
+        x: c.x,
+        y: c.y,
+        f: 5,
+        h: 10 * Math.cos(c.g * Math.PI / 180),
+        i: 10 * Math.sin(c.g * Math.PI / 180)
     })
 }));</script>
 </body>
 </html>
-d
